@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand: #450BC8;
+  --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #111827; /* text-gray-900 */
+  background-color: #EFE9FB;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: var(--font-sans);
+}
+
+.glass-panel {
+  background-color: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 4px 30px rgba(0,0,0,0.03);
+}
+
+/* Base states for orb */
+.orb-layer {
+  transition: transform 100ms linear, opacity 100ms linear;
+  will-change: transform, opacity;
+}
+
+@keyframes inhaleRings { 0% { transform: scale(0.95); opacity: 0.6; } 100% { transform: scale(1.15); opacity: 1; } }
+@keyframes holdRings { 0% { transform: scale(1.15); opacity: 1; } 100% { transform: scale(1.15); opacity: 1; } }
+@keyframes exhaleRings { 0% { transform: scale(1.15); opacity: 1; } 100% { transform: scale(0.95); opacity: 0.6; } }
+
+.anim-inhale .rings-wrapper { animation: inhaleRings 4s ease-out forwards; }
+.anim-hold .rings-wrapper { animation: holdRings 7s linear forwards; }
+.anim-exhale .rings-wrapper { animation: exhaleRings 8s ease-in-out forwards; }
+
+@keyframes spin-slow { 100% { transform: rotate(360deg); } }
+@keyframes spin-slow-reverse { 100% { transform: rotate(-360deg); } }
+
+.organic-ring {
+  position: absolute;
+  border-width: 1px;
+  border-style: solid;
+  transform-origin: center;
+  will-change: transform;
+}
+
+@keyframes inhaleOrb { 0% { transform: scale(1); filter: brightness(1); } 100% { transform: scale(1.15); filter: brightness(1.1); } }
+@keyframes holdOrb { 0% { transform: scale(1.15); filter: brightness(1.1); } 100% { transform: scale(1.15); filter: brightness(1.1); } }
+@keyframes exhaleOrb { 0% { transform: scale(1.15); filter: brightness(1.1); } 100% { transform: scale(1); filter: brightness(1); } }
+
+/* Use Animation instead of transition to allow play-state: paused */
+.anim-layer {
+  animation-fill-mode: forwards;
+}
+.paused .anim-layer,
+.paused .organic-ring,
+.paused .rings-wrapper {
+  animation-play-state: paused !important;
+}
+
+.anim-inhale .main-orb { animation: inhaleOrb 4s ease-out forwards; }
+.anim-hold .main-orb { animation: holdOrb 7s linear forwards; }
+.anim-exhale .main-orb { animation: exhaleOrb 8s ease-in-out forwards; }
